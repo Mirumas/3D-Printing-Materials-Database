@@ -35,10 +35,10 @@ create table printing_technology
 );
 
 --Таблица «Параметр»
-create table parametr
+create table parameter
 (
-	id_parametr serial primary key,
-	name_parametr text not null
+	id_parameter serial primary key,
+	name_parameter text not null
 );
 
 --Таблица «Материал»
@@ -79,11 +79,11 @@ create table gost_material
 create table material_parameters
 (
 	id_material integer,
-	id_parametr integer,
-	value_parametr float,
-	primary key (id_material, id_parametr),
+	id_parameter integer,
+	value_parameter float,
+	primary key (id_material, id_parameter),
 	foreign key (id_material) references material (id_material),
-	foreign key (id_parametr) references parametr (id_parametr)
+	foreign key (id_parameter) references parameter (id_parameter)
 );
 
 
@@ -98,10 +98,10 @@ WHERE id_technology =
 
 SELECT id_material
 FROM material_parameters 
-WHERE id_parametr = (SELECT id_parametr 
-           FROM parametr 
-           WHERE name_parametr = 'Спектр засветки (нм)') 
-           AND value_parametr = 405;
+WHERE id_parameter = (SELECT id_parameter 
+           FROM parameter 
+           WHERE name_parameter = 'Спектр засветки (нм)') 
+           AND value_parameter = 405;
            
 SELECT id_smell
 FROM smell
@@ -118,14 +118,14 @@ JOIN printing_technology pt
   ON tm.id_technology = pt.id_technology
 JOIN material_parameters mp
   ON m.id_material = mp.id_material
-JOIN parametr p
-  ON mp.id_parametr = p.id_parametr
+JOIN parameter p
+  ON mp.id_parameter = p.id_parameter
 JOIN smell s
   ON m.id_smell = s.id_smell
 JOIN manufacturer ma
   ON m.id_manufacturer = ma.id_manufacturer
 WHERE pt.name_technology = 'LCD'
-  AND p.name_parametr = 'Спектр засветки (нм)'
-  AND mp.value_parametr = 405
+  AND p.name_parameter = 'Спектр засветки (нм)'
+  AND mp.value_parameter = 405
   AND (s.degree_smell = 'Слабый запах' OR s.degree_smell = 'Без запаха')
   AND ma.country = 'Россия';
