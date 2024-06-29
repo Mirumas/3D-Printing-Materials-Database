@@ -48,23 +48,15 @@ create table material
 	id_material serial primary key,
 	name_material text not null,
 	price integer not null,
+	id_technology integer,
 	id_manufacturer integer,
 	id_smell integer,
 	id_type integer,
 	id_gost integer,
 	foreign key (id_manufacturer) references manufacturer (id_manufacturer),
 	foreign key (id_smell) references smell (id_smell),
-	foreign key (id_type) references type_of_material (id_type)
-	foreign key (id_gost) references gost (id_gost)
-);
-
---Таблица «Технология-материал»
-create table technology_material
-(
-	id_material integer,
-	id_technology integer,
-	primary key (id_material, id_technology),
-	foreign key (id_material) references material (id_material),
+	foreign key (id_type) references type_of_material (id_type),
+	foreign key (id_gost) references gost (id_gost),
 	foreign key (id_technology) references printing_technology (id_technology)
 );
 
