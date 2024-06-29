@@ -39,6 +39,7 @@ create table parameter
 (
 	id_parameter serial primary key,
 	name_parameter text not null
+	units text not null
 );
 
 --Таблица «Материал»
@@ -50,9 +51,11 @@ create table material
 	id_manufacturer integer,
 	id_smell integer,
 	id_type integer,
+	id_gost integer,
 	foreign key (id_manufacturer) references manufacturer (id_manufacturer),
 	foreign key (id_smell) references smell (id_smell),
 	foreign key (id_type) references type_of_material (id_type)
+	foreign key (id_gost) references gost (id_gost)
 );
 
 --Таблица «Технология-материал»
@@ -65,16 +68,6 @@ create table technology_material
 	foreign key (id_technology) references printing_technology (id_technology)
 );
 
---Таблица «ГОСТ-материал»
-create table gost_material
-(
-	id_material integer,
-	id_gost integer,
-	primary key (id_material, id_gost),
-	foreign key (id_material) references material (id_material),
-	foreign key (id_gost) references gost (id_gost)
-);
-
 --Таблица «Параметры материала»
 create table material_parameters
 (
@@ -85,7 +78,6 @@ create table material_parameters
 	foreign key (id_material) references material (id_material),
 	foreign key (id_parameter) references parameter (id_parameter)
 );
-
 
 -- Запросы 
 SELECT id_material 
